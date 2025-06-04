@@ -8,7 +8,7 @@ from src.exceptions import PacienteNoExisteError, MedicoNoExisteError, TurnoDupl
 
 class TestClinica(unittest.TestCase):
     
-    def crear_clinica(self):
+    def setUp(self):
         self.clinica = Clinica()
         self.paciente = Paciente("12345678", "Pepito Juan", "16/09/1997")
         self.medico = Medico("MN12345", "Dr. Juan Pepito", "Gastroenterologia")

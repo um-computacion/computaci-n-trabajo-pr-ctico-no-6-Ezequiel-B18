@@ -7,7 +7,7 @@ from src.models.receta import Receta
 
 class TestReceta(unittest.TestCase):
 
-    def crear_receta(self):
+    def setUp(self):
         self.paciente = Paciente("12345678", "Juan Pepito", "15/03/1997")
         self.medico = Medico("MN12345", "Dr. Pepito Juan", "Cardiologia")
         self.medicamentos = ["Aspirina 100mg", "Omeprazol 20mg"]

@@ -10,7 +10,7 @@ class TestExceptions(unittest.TestCase):
     
     def test_medico_no_existe_error(self):
         with self.assertRaises(MedicoNoExisteError):
-            raise PacienteNoExisteError("Medico con Matricula MN12345")
+            raise MedicoNoExisteError("Medico con Matricula MN12345")
         
     def test_paciente_no_existe_error(self):
         with self.assertRaises(TurnoDuplicadoError):
