@@ -14,8 +14,8 @@ class TestClinica(unittest.TestCase):
         self.medico = Medico("MN12345", "Dr. Juan Pepito", "Gastroenterologia")
 
     def test_agregar_paciente(self):
-        self.clinica.agregar_pacient(self.paciente)
-        self.assertIn("123456781", self.clinica.pacientes)
+        self.clinica.agregar_paciente(self.paciente)
+        self.assertIn("12345678", self.clinica.pacientes)
         self.assertEqual(self.clinica.pacientes["12345678"], self.paciente)
 
     def test_agregar_medico(self):
@@ -38,11 +38,11 @@ class TestClinica(unittest.TestCase):
         with self.assertRaises(PacienteNoExisteError):
             self.clinica.agendar_turno("92234293", "MN12345", fecha_hora)
 
-    def test_turno_paciente_no_existe(self):
+    def test_turno_medico_no_existe(self):
         self.clinica.agregar_paciente(self.paciente)
         fecha_hora = datetime(2025, 5, 19, 10, 30)
 
-        with self.assertRaises(PacienteNoExisteError):
+        with self.assertRaises(MedicoNoExisteError):
             self.clinica.agendar_turno("12345678", "MN99999", fecha_hora)
 
     def test_turno_duplicado(self):
@@ -52,8 +52,8 @@ class TestClinica(unittest.TestCase):
         
         self.clinica.agendar_turno("12345678", "MN12345", fecha_hora)
 
-        paciente2 = Paciente("87654321", "Juan Pepito" "23/02/1977")
-        self.clinica.agendar_paciente(paciente2)
+        paciente2 = Paciente("87654321", "Juan Pepito", "23/02/1977")
+        self.clinica.agregar_paciente(paciente2)
 
         with self.assertRaises(TurnoDuplicadoError):
             self.clinica.agendar_turno("87654321", "MN12345", fecha_hora)
