@@ -12,7 +12,7 @@ class TestExceptions(unittest.TestCase):
         with self.assertRaises(MedicoNoExisteError):
             raise MedicoNoExisteError("Medico con Matricula MN12345")
         
-    def test_paciente_no_existe_error(self):
+    def test_turno_duplicado_error(self):
         with self.assertRaises(TurnoDuplicadoError):
             raise TurnoDuplicadoError("Ya existe un turno para este medico en ese dia y hora")
         
