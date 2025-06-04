@@ -3,60 +3,48 @@ from datetime import datetime
 
 from src.models.paciente import Paciente
 from src.models.medico import Medico
-from src.clinica import Clinica
-from src.exceptions import PacienteNoExisteError, MedicoNoExisteError, TurnoDuplicadoError
+from src.models.turno import Turno
+from src.models.receta import Receta
+from src.models.historia_clinica import HistoriaClinica
 
-class TestClinica(unittest.TestCase):
+class TestHistoriaClinica(unittest.TestCase):
     
-    def crear_clinica(self):
-        self.clinica = Clinica()
-        self.paciente = Paciente("12345678", "Pepito Juan", "16/09/1997")
-        self.medico = Medico("MN12345", "Dr. Juan Pepito", "Gastroenterologia")
+    def crear_historia_clinica(self):
+        self.paciente = Paciente("12345678", "Pepito Juan", "15/05/1977")
+        self.medico = Medico("MN12345", "Dr. Juan Pepito", "Oftalmologia")
+        self.turno = Turno(self.paciente, self.medico, datetime(2025, 6, 15, 10, 30))
+        self.receta = Receta(self.paciente, self.medico, ["Aspirina 100mg"])
 
-    def test_agregar_paciente(self):
-        self.clinica.agregar_pacient(self.paciente)
-        self.assertIn("123456781", self.clinica.pacientes)
-        self.assertEqual(self.clinica.pacientes["12345678"], self.paciente)
+    def test_crear_historia_clinica(self):
+        historia = HistoriaClinica(self.paciente)
+        self.assertEqual(len(historia.turnos), 1)
+        self.assertEqual(historia.turnos[0], self.turno)
 
-    def test_agregar_medico(self):
-        self.clinica.agregar_medico(self.medico)
-        self.assertIn("MN12345", self.clinica.medicos)
-        self.assertEqual(self.clinica.medicos["MN12345"], self.medico)
+    def test_agregar_turno(self):
+        historia = HistoriaClinica(self.paciente)
+        historia.agregar_turno(self.turno)
+        self.assertEqual(len(historia.turnos), 1)
+        self.assertEqual(historia.turnos[0], self.turno)
 
-    def test_agendar_turno_valido(self):
-        self.clinica.agregar_paciente(self.paciente)
-        self.clinica.agregar_medico(self.medico)
-        fecha_hora = datetime(2025, 5, 19, 10, 30)
+    def test_agregar_receta(self):
+        historia = HistoriaClinica(self.paciente)
+        historia.agregar_receta(self.receta)
+        self.assertEqual(len(historia.recetas), 1)
+        self.assertEqual(historia.recetas[0], self.receta)
 
-        self.clinica.agendar_turno("12345678", "MN12345", fecha_hora)
-        self.assertEqual(len(self.clinica.turnos), 1)
+    def test_obtener_turnos(self):
+        historia = HistoriaClinica(self.paciente)
+        historia.agregar_turno(self.turno)
+        turnos = historia.obtener_turnos()
+        self.assertEqual(len(turnos), 1)
+        self.assertEqual(turnos[0], self.turno)
 
-    def test_turno_paciente_no_existe(self):
-        self.clinica.agregar_medico(self.medico)
-        fecha_hora = datetime(2025, 5, 19, 10, 30)
-
-        with self.assertRaises(PacienteNoExisteError):
-            self.clinica.agendar_turno("92234293", "MN12345", fecha_hora)
-
-    def test_turno_paciente_no_existe(self):
-        self.clinica.agregar_paciente(self.paciente)
-        fecha_hora = datetime(2025, 5, 19, 10, 30)
-
-        with self.assertRaises(PacienteNoExisteError):
-            self.clinica.agendar_turno("12345678", "MN99999", fecha_hora)
-
-    def test_turno_duplicado(self):
-        self.clinica.agregar_paciente(self.paciente)
-        self.clinica.agregar_medico(self.medico)
-        fecha_hora = datetime(2025, 5, 19, 10, 30)
-        
-        self.clinica.agendar_turno("12345678", "MN12345", fecha_hora)
-
-        paciente2 = Paciente("87654321", "Juan Pepito" "23/02/1977")
-        self.clinica.agendar_paciente(paciente2)
-
-        with self.assertRaises(TurnoDuplicadoError):
-            self.clinica.agendar_turno("87654321", "MN12345", fecha_hora)
+    def test_obtener_recetas(self):
+        historia = HistoriaClinica(self.paciente)
+        historia.agregar_receta(self.receta)
+        recetas = historia.obtener_recetas()
+        self.assertEqual(len(recetas), 1)
+        self.assertEqual(recetas[0], self.receta)
 
 if __name__ == '__main__':
     unittest.main()
