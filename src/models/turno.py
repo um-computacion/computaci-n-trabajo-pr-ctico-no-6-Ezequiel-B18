@@ -15,4 +15,3 @@ class Turno:
         fecha_str = self.fecha_hora.strftime("%d/%m/%Y")
         return f"Turno: {self.paciente.nombre} con {self.medico.nombre} el {fecha_str}"
     
-    
