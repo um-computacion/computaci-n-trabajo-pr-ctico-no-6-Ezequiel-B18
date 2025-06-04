@@ -17,8 +17,8 @@ class TestHistoriaClinica(unittest.TestCase):
 
     def test_crear_historia_clinica(self):
         historia = HistoriaClinica(self.paciente)
-        self.assertEqual(len(historia.turnos), 1)
-        self.assertEqual(historia.turnos[0], self.turno)
+        self.assertEqual(len(historia.turnos), 0)
+        self.assertEqual(historia.paciente, self.paciente)
 
     def test_agregar_turno(self):
         historia = HistoriaClinica(self.paciente)
@@ -45,6 +45,27 @@ class TestHistoriaClinica(unittest.TestCase):
         recetas = historia.obtener_recetas()
         self.assertEqual(len(recetas), 1)
         self.assertEqual(recetas[0], self.receta)
+    
+    def test_str_historia_clinica_vacia(self):
+        historia = HistoriaClinica(self.paciente)
+        resultado = str(historia)
+        
+        self.assertIn("Historia Clinica de Pepito Juan", resultado)
+        self.assertIn("DNI: 12345678", resultado)
+        self.assertIn("Turnos (0):", resultado)
+        self.assertIn("Recetas (0):", resultado)
+
+    def test_str_historia_clinica_con_datos(self):
+        historia = HistoriaClinica(self.paciente)
+        historia.agregar_turno(self.turno)
+        historia.agregar_receta(self.receta)
+        
+        resultado = str(historia)
+        
+        self.assertIn("Historia Clinica de Pepito Juan", resultado)
+        self.assertIn("DNI: 12345678", resultado)
+        self.assertIn("Turnos (1):", resultado)
+        self.assertIn("Recetas (1):", resultado)
 
 if __name__ == '__main__':
     unittest.main()
