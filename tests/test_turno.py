@@ -18,7 +18,7 @@ from src.models.turno import Turno
 
 class TestTurno(unittest.TestCase):
     
-    def crear_variables(self):
+    def crear_turno(self):
         self.paciente = Paciente("12345678", "Pepito Juan", "15/05/1977")
         self.medico = Medico("MN12345", "Dr. Juan Pepito", "Cardiologia")
         self.fecha_hora = datetime(2025, 6, 15, 10, 30)
