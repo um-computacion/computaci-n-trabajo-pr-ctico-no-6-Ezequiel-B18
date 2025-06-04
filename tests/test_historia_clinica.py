@@ -9,7 +9,7 @@ from src.models.historia_clinica import HistoriaClinica
 
 class TestHistoriaClinica(unittest.TestCase):
     
-    def crear_historia_clinica(self):
+    def setUp(self):
         self.paciente = Paciente("12345678", "Pepito Juan", "15/05/1977")
         self.medico = Medico("MN12345", "Dr. Juan Pepito", "Oftalmologia")
         self.turno = Turno(self.paciente, self.medico, datetime(2025, 6, 15, 10, 30))
