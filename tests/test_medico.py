@@ -20,12 +20,12 @@ class TestMedico(unittest.TestCase):
         self.assertEqual(medico.especialidad, "Cardiologia")
 
     def test_obtener_matricula(self):
-        medico = Medico("MN67890", "Dra. Juana", "Neurología")
-        self.assertEqual(medico.obtener_matricula, "MN67890")
+        medico = Medico("MN67890", "Dra. Juana", "Neurologia")
+        self.assertEqual(medico.obtener_matricula(), "MN67890")
 
     def test_str_medico(self):
-        medico = Medico("MN67890", "Dr. Juan Pepito", "Neurología")
-        expected = "Dr. Juan Pepito, Neurologo, Matricula: MN67890"
+        medico = Medico("MN67890", "Dr. Juan Pepito", "Neurologia")
+        expected = "Dr. Juan Pepito, Neurologia, Matricula: MN67890"
         self.assertEqual(str(medico), expected)
 
 if __name__ == '__main__':
